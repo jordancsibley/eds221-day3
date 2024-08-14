@@ -1,0 +1,301 @@
+---
+title: "EDS 221 day 3 practice"
+author: "Jordan"
+format: html
+---
+
+
+```{r}
+pinyon_pine <- 14 
+lodgepole_pine <- 46
+
+# some logical expressions 
+pinyon_pine == 10
+pinyon_pine < lodgepole_pine
+
+pinyon_pine != 25
+
+```
+
+# Conditionals 
+```{r}
+# if ----
+
+burrito <- 2.4 
+
+# wrtie a short if statement 
+if(burrito > 2){
+  print("I love burritos!")
+}
+
+# when value is greater than 2, prints out text. if not, prints out nothing 
+
+# fun shortcut to run current code chunk = command option c
+```
+
+```{r}
+# if else ----
+
+pika <- 89.1 
+
+if(pika >60) {
+  print("mega pika")
+} else 
+  print("normal pika")
+```
+
+```{r}
+# if else if ----
+
+marmot <- 2.8 
+
+if (marmot < 0.5) {
+  print("a small marmot")
+} else if (marmot >= 0.5 & marmot <3 ) {
+  print("a medium marmot")
+} else 
+  print("a large marmot")
+```
+
+
+# Strings 
+```{r}
+library(stringr)
+
+my_ships <- c("Millenium Falcon",
+              "X-wing",
+              "Tie-Fighter",
+              "Death Star")
+
+str_detect(my_ships, pattern = "r") 
+# looks through vector and sees if any of them contain an "r"
+```
+
+```{r}
+# condtional logical exp using str_detect 
+phrase<- "I love burritos"
+
+if (str_detect(phrase, "love")) {
+  print("burrito fan")
+}
+```
+
+
+# Switch statement 
+```{r}
+species <- "mouse"
+
+switch(species, 
+       "cat" = print("meow"),
+       "dog" = print("woof"),
+       "mouse" = print("squeak"))
+
+# rewritting as an if else statement 
+
+if(species == "mouse") {
+  print("squeak")
+} else if(species == "dog") {
+  print("woof")
+} else if(species == "cat") {
+  print("meow")
+}
+```
+
+
+# For loops 
+
+```{r}
+dog_names <- c("Teddy", "Khora", "Banjo","Waffle")
+
+for (pupster in dog_names) {
+  print(paste0("My dogs name is ", pupster, "."))
+}
+  
+# in this case "pupster" is taking the place of "i"
+# { body } = everything you want R to do 
+# for ( ) = how you want to set through it
+```
+
+
+```{r}
+mass <- seq(from = 0, to = 3, by = 0.5)
+
+mass_1 <- mass[1]
+new_value <- mass_1 + 2
+print(new_value)
+# this would take forever to do for each value in mass vector
+
+# to do this in for loop 
+for (i in mass) {
+  new_value <- i + 2
+  print(new_value)
+}
+```
+
+
+```{r}
+weight <- seq(from = 0, to = 3, by = 0.5)
+
+for (i in seq_along(weight)) {
+  new_value <- weight[i] + 2
+  print(new_value)
+}
+
+# seq_along(mass) gives us 1 through 7, which is the number of values in the mass vector 
+# can make it easier to index from the vector you're lopping through 
+```
+
+
+```{r}
+tree_height<- c(1, 2, 6, 10)
+
+for (i in seq_along(tree_height)) {
+  new_value<- tree_height[i] + tree_height[i + 1]
+  print(new_value)
+}
+```
+
+
+# Conditional for loops 
+
+```{r}
+animals <- c("cat", "dog", "dog", "zebra", "dog")
+
+# we want it to print i love dogs when ever a dog pops up in the vector 
+
+# for loop using if-else statement 
+
+for (i in seq_along(animals)){
+  if (animals[i] == "dog") {
+  print("I love dogs!")
+} else 
+  print("This is not a dog")
+}
+
+```
+
+```{r}
+rm(list = ls()) # this removes items in the environment. helpful when it gets too long. now when i run this chunk it will only give me what i need from it 
+species <- c("dog", "elephant", "goat", "dog", "dog", "elephant")
+
+age_human <- c(3, 8, 4, 6, 12, 18)
+
+for(i in seq_along(species)) {
+if (species[i] == "dog"){
+  animal_age <- age_human[i] * 7
+} else if (species[i] == "elephant") {
+  animal_age <- age_human[i] * 0.88 
+} else if (species[i] == "goat") {
+  animal_age <- age_human[i] * 4.7
+}
+  print(animal_age)
+}
+
+
+```
+
+
+# Storing for loop output 
+
+```{r}
+
+rm(list = ls())
+
+species <- c("dog", "elephant", "goat", "dog", "dog", "elephant")
+age_human <- c(3, 8, 4, 6, 12, 18)
+
+# create an empty vector for animal ages 
+animal_ages <- vector(mode = "numeric", length = length(species))
+
+# for loop 
+for(i in seq_along(species)) {
+if (species[i] == "dog"){
+  animal_age <- age_human[i] * 7
+} else if (species[i] == "elephant") {
+  animal_age <- age_human[i] * 0.88 
+} else if (species[i] == "goat") {
+  animal_age <- age_human[i] * 4.7
+}
+  animal_ages[i] <- animal_age
+}
+# the only difference between this one and the one earlier is instead of printing out the answer, it will store the answer in the empty vector "animal_ages
+```
+
+```{r}
+tigers<- c(29, 34, 82)
+lions <- c(2, 18, 6)
+
+big_cats <- vector(mode = "numeric", length = length(tigers))
+
+for (i in seq_along(tigers)) {
+  total_cats <- tigers[i] + lions[i]
+  big_cats[i] <- total_cats
+}
+
+
+```
+
+
+# Afternoon session 
+
+# For loops using data frames 
+```{r}
+p <- vector(mode = "numeric", length = ncol(mtcars))
+
+for (i in 1:ncol(mtcars)) {
+  mean_value <- mean(mtcars[[i]], na.rm = TRUE)
+  mean_mtcars[[i]] <- mean_value
+}
+
+```
+
+
+```{r}
+# palmer penguins 
+#library(palmerpenguins)
+
+# for loop to go through the data frame to find columns that are numeric 
+for (i in seq_along(penguins)) {
+ if (is.numeric(penguins[[i]])) {
+  penguin_median <- median(penguins[[i]], na.rm = TRUE)
+  print(penguin_median)
+} else {
+  print("non-numeric")
+} 
+}
+
+# for the last column "year" it treated the integer as numeric so it took the median still 
+```
+
+
+
+# Using 'apply()'
+```{r}
+apply(X = mtcars, MARGIN = 2, FUN = mean)
+# margin = 2 columns 
+```
+
+
+# Using 'dplyr::across()'
+```{r}
+library(tidyverse)
+
+penguins %>% 
+  group_by(species) %>% 
+  summarise(across(where(is.numeric), mean, na.rm = TRUE))
+
+# grouping by species, then finding mean across columns that are numeric 
+```
+
+
+# Using 'purrr:map()'
+```{r}
+map(.x = mtcars, .f = mean)
+
+# returns the means as a list 
+
+map_df(.x = mtcars, .f = mean)
+# kept in the structure of a data frame 
+```
+
+
